@@ -1,9 +1,10 @@
 import xlsxwriter
 
-workbook = xlsxwriter.Workbook('this is a test.xlsx')
-worksheet = workbook.add_worksheet('test2')
+print 'input filename:'
+workbook = xlsxwriter.Workbook(raw_input()+'.xlsx')
+worksheet = workbook.add_worksheet('sheet')
 
-a = open('transfer.txt','r')
+a = open('dataset.txt','r')
 tmp = a.read()
 
 tmp2 = ''
