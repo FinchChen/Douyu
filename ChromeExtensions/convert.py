@@ -1,7 +1,10 @@
 import xlsxwriter
+import time
 
-print 'input filename:'
-workbook = xlsxwriter.Workbook(raw_input()+'.xlsx')
+print 'filename?:'
+input1 = raw_input()
+name = str(time.localtime().tm_mon)+'.'+str(time.localtime().tm_mday)+'.'+str(time.localtime().tm_hour)+'.'+str(time.localtime().tm_min)
+workbook = xlsxwriter.Workbook(input1+name+'.xlsx')
 worksheet = workbook.add_worksheet('sheet')
 
 a = open('dataset.txt','r')

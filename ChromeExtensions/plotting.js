@@ -5,7 +5,7 @@ DOM.getElementsByClassName('guess-game-btn')[0].click();
 var counter = 0;
 var output = [];
 var timestep = 100;//ms
-var min = 1
+var min = 1;
 
 /*
 var a = setInterval(() => {
