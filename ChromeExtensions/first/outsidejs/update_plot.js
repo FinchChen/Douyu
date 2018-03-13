@@ -1,3 +1,4 @@
+
 Highcharts.setOptions({
     global: {
         useUTC: false
@@ -13,17 +14,20 @@ Highcharts.chart('plot-container', {
             load: function () {
 
                 // set up the updating of the chart each second
-                var series = this.series[0];
+                var series1 = this.series[0];
+                var series2 = this.series[1];
                 setInterval(function () {
                     var x = (new Date()).getTime(), // current time
-                        y = Math.random(); //自己的数据
-                    series.addPoint([x, y], true, true);
+                        y1 = Math.random(); //自己的数据
+                        y2 = Math.random();
+                    series1.addPoint([x, y1],false, true);
+                    series2.addPoint([x, y2],true, true);
                 }, 1000);
             }
         }
     },
     title: {
-        text: 'Rate Plot'
+        text: '标题'
     },
     xAxis: {
         type: 'datetime',
@@ -60,14 +64,29 @@ Highcharts.chart('plot-container', {
                 time = (new Date()).getTime(),
                 i;
 
-            for (i = -30; i <= 0; i += 1) {
+            for (i = -100; i <= 0; i += 1) {
                 data.push({
                     x: time + i * 1000,
-                    y: Math.random() //最开始的-i个数据
+                    y: 0 //最开始的-i个数据
+                });
+            }
+            return data;
+        }())
+    },{
+        name: 'Rate2',
+        data: (function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+
+            for (i = -100; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: 0 //最开始的-i个数据
                 });
             }
             return data;
         }())
     }]
 });
-

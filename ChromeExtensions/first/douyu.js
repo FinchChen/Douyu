@@ -3,7 +3,7 @@ document.getElementsByClassName('guess-game-btn')[0].click();
 var counter = 0;
 var output = [];
 var timestep = 100;//ms
-var min = 60;
+var min = 1;
 
 function convert(pot_number,left_or_right,rate_or_number){
     return document.getElementsByClassName('guess-game-box-body')[0].children[0].children[pot_number].children[0].children[0].children[0].children[1].children[left_or_right].attributes[rate_or_number].nodeValue;
@@ -47,7 +47,7 @@ function test(){
         output += [,rate5,number5,pot5,rate6,number6,pot6+'/'];
     }
 
-    /*
+    
     if (document.getElementsByClassName('guess-game-box-body')[0].children[0].children.length == 1){
         console.log(rate1,number1,pot1,rate2,number2,pot2);
     } else if (document.getElementsByClassName('guess-game-box-body')[0].children[0].children.length == 2){
@@ -58,7 +58,7 @@ function test(){
         clearInterval(b);
         alert('wtf')
     }
-    */
+    
     counter += 1;
 
     if (counter > 10*60*min) {
