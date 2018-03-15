@@ -1,6 +1,8 @@
 injectpoint = document.getElementsByClassName('PlayerSub')[0];
 injectpoint.innerHTML = ''
 
+document.getElementsByClassName('guess-game-btn')[0].click();
+
 ele = document.createElement('button');
 ele.setAttribute('id','startbutton');
 ele.textContent = '开始记录';
@@ -32,6 +34,16 @@ ele.textContent = '停止画图2';
 injectpoint.append(ele);
 
 ele = document.createElement('button');
+ele.setAttribute('class','plotbutton');
+ele.textContent = '画图3';
+injectpoint.append(ele);
+
+ele = document.createElement('button');
+ele.setAttribute('class','plotbutton');
+ele.textContent = '停止画图3';
+injectpoint.append(ele);
+
+ele = document.createElement('button');
 ele.setAttribute('class','betbutton');
 ele.textContent = '1左下注10';
 injectpoint.append(ele);
@@ -47,8 +59,25 @@ ele.textContent = '1两边同时压10';
 injectpoint.append(ele);
 
 ele = document.createElement('button');
+ele.setAttribute('id','wtfbutton1');
+ele.textContent = '数据插件';
+injectpoint.append(ele);
+
+ele = document.createElement('button');
+ele.setAttribute('id','wtfbutton2');
+ele.textContent = '数据停止';
+injectpoint.append(ele);
+
+
+ele = document.createElement('button');
 ele.setAttribute('class','betbutton');
-ele.textContent = '1左开猜,赔率，底池';
+ele.textContent = '左开猜,编号,赔率，底池';
+injectpoint.append(ele);
+
+ele = document.createElement('input');
+ele.setAttribute('class','input');
+ele.setAttribute('style','width: 50px');
+ele.value = 0;
 injectpoint.append(ele);
 
 ele = document.createElement('input');
@@ -65,7 +94,13 @@ injectpoint.append(ele);
 
 ele = document.createElement('button');
 ele.setAttribute('class','betbutton');
-ele.textContent = '1右开猜，赔率，底池';
+ele.textContent = '右开猜,编号,赔率，底池';
+injectpoint.append(ele);
+
+ele = document.createElement('input');
+ele.setAttribute('class','input');
+ele.setAttribute('style','width: 50px');
+ele.value = 0;
 injectpoint.append(ele);
 
 ele = document.createElement('input');
@@ -82,17 +117,25 @@ injectpoint.append(ele);
 
 ele = document.createElement('button');
 ele.setAttribute('class','betbutton');
-ele.textContent = '两边同开猜，赔率，底池';
+ele.textContent = '两边开猜,编号,赔率，底池';
 injectpoint.append(ele);
 
 ele = document.createElement('input');
 ele.setAttribute('class','input');
 ele.setAttribute('style','width: 50px');
+ele.value = 0;
 injectpoint.append(ele);
 
 ele = document.createElement('input');
 ele.setAttribute('class','input');
 ele.setAttribute('style','width: 50px');
+ele.value = 0.8;
+injectpoint.append(ele);
+
+ele = document.createElement('input');
+ele.setAttribute('class','input');
+ele.setAttribute('style','width: 50px');
+ele.value = 1000;
 injectpoint.append(ele);
 
 
@@ -115,6 +158,23 @@ ele = document.createElement('div');
 ele.setAttribute('id','plot-container2');
 ele.setAttribute('style','min-width: 310px; height: 200px; margin: 0 auto');
 document.getElementById('plotarea').append(ele)
+
+ele = document.createElement('div');
+ele.setAttribute('id','plot-container3');
+ele.setAttribute('style','min-width: 310px; height: 200px; margin: 0 auto');
+document.getElementById('plotarea').append(ele);
+
+document.getElementsByClassName('guess-game-btn')[0].click();
+
+//document.getElementById('guess-main-panel').setAttribute('style','position:relative');
+
+leftobj = document.createElement('div');
+leftobj.textContent = '未开始1';
+
+
+rightobj = document.createElement('div');
+rightobj.textContent = '未开始2';
+
 
 
 function convert(pot_number,left_or_right,rate_or_number){ // 0 1 2 //0left 2right //1rate 3number
@@ -203,7 +263,7 @@ function test(){
     };
 };
 
-function update_plot(container_name,plot_number,magic){//magic 0是赔率 1是总池
+function update_plot2(){
     Highcharts.setOptions({
         global: {
             useUTC: false
@@ -306,7 +366,7 @@ function update_plot(container_name,plot_number,magic){//magic 0是赔率 1是�
     });
 }
 
-function update_plot1(max_number){
+function update_plot1(){
     Highcharts.setOptions({
         global: {
             useUTC: false
@@ -317,7 +377,7 @@ function update_plot1(max_number){
         chart: {
             type: 'spline',
             animation: Highcharts.svg, // don't animate in old IE
-            marginRight: 10,
+            marginRight: 30,
             events: {
                 load: function () {
     
@@ -353,8 +413,7 @@ function update_plot1(max_number){
             title: {
                 text: '赔率'
             },
-            max: function(){
-                return max_number-5}(),
+            max:3,
             plotLines: [{
                 value: 0,
                 width: 1,
@@ -366,6 +425,109 @@ function update_plot1(max_number){
                 return '<b>' + this.series.name + '</b><br/>' +
                     Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                     Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: '左边赔率',
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+    
+                for (i = -1; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0 //最开始的-i个数据
+                    });
+                }
+                return data;
+            }())
+        },{
+            name: '右边赔率',
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+    
+                for (i = -1; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0 //最开始的-i个数据
+                    });
+                }
+                return data;
+            }())
+        }]
+    });
+}
+
+function update_plot3(){
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    
+    Highcharts.chart('plot-container3', {
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 30,
+            events: {
+                load: function () {
+    
+                    // set up the updating of the chart each second
+                    var series1 = this.series[0];
+                    var series2 = this.series[1];
+                    var pre1 = 0;
+                    var pre2 = 0;
+                    e = setInterval(function () {
+                        var x = (new Date()).getTime(); // current time
+                        var y1 = parseFloat(convert(2,0,1));
+                        var y2 = parseFloat(convert(2,2,1));
+
+                        if (y1 != pre1 || y2 != pre2){
+                            series1.addPoint([x, y1],true, false);
+                            pre1 = y1;
+                            series2.addPoint([x, y2],true, false);
+                            pre2 = y2;
+                        }
+                        
+                    }, 500);
+                }
+            }
+        },
+        title: {
+            text: '第三个竞猜赔率趋势'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: '赔率'
+            },
+            max:3,
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 1);
             }
         },
         legend: {
@@ -452,27 +614,30 @@ document.getElementsByClassName('betbutton')[2].addEventListener("click", functi
 
 document.getElementsByClassName('betbutton')[3].addEventListener("click", function(){
 
-    var tmp101 = document.getElementsByClassName('input')[0].value;
-    var tmp102 = document.getElementsByClassName('input')[1].value;
-    openbet(0,0,tmp101,tmp102);
+    var tmp1 = document.getElementsByClassName('input')[0].value;
+    var tmp2 = document.getElementsByClassName('input')[1].value;
+    var tmp3 = document.getElementsByClassName('input')[2].value;
+    openbet(tmp1,0,tmp2,tmp3);
 
 });
 
 document.getElementsByClassName('betbutton')[4].addEventListener("click", function(){
 
-    var tmp103 = document.getElementsByClassName('input')[2].value;
-    var tmp104 = document.getElementsByClassName('input')[3].value;
-    openbet(0,1,tmp103,tmp104);
+    var tmp1 = document.getElementsByClassName('input')[3].value;
+    var tmp2 = document.getElementsByClassName('input')[4].value;
+    var tmp3 = document.getElementsByClassName('input')[5].value;
+    openbet(tmp1,1,tmp2,tmp3);
 
 });
 
 document.getElementsByClassName('betbutton')[5].addEventListener("click", function(){
 
-    var tmp105 = document.getElementsByClassName('input')[4].value;
-    var tmp106 = document.getElementsByClassName('input')[5].value;
-    openbet(0,0,tmp105,tmp106);
-    var tmp104 = setTimeout(() => {
-        openbet(0,1,tmp105,tmp106);
+    var tmp1 = document.getElementsByClassName('input')[6].value;
+    var tmp2 = document.getElementsByClassName('input')[7].value;
+    var tmp3 = document.getElementsByClassName('input')[8].value;
+    openbet(tmp1,0,tmp2,tmp3);
+    setTimeout(() => {
+        openbet(tmp1,1,tmp2,tmp3);
     }, 2500);
 
 });
@@ -505,7 +670,7 @@ document.getElementById('stopbutton').addEventListener("click", function(){
 document.getElementsByClassName('plotbutton')[0].addEventListener("click", function(){
 
     document.getElementsByClassName('guess-game-btn')[0].click();
-    update_plot1(10);
+    update_plot1();
 
 });
 
@@ -527,5 +692,41 @@ document.getElementsByClassName('plotbutton')[3].addEventListener("click", funct
     clearInterval(d);
 
 });
+
+document.getElementsByClassName('plotbutton')[4].addEventListener("click", function(){
+
+    document.getElementsByClassName('guess-game-btn')[0].click();
+    update_plot3();
+
+});
+
+document.getElementsByClassName('plotbutton')[5].addEventListener("click", function(){
+
+    clearInterval(e);
+
+});
+
+document.getElementById('wtfbutton1').addEventListener("click", function(){
+
+    f = setInterval(()=>{
+        leftobj.textContent = '1左: 赔率:' + convert(0,0,1) + ' 数量: ' + convert(0,0,3);
+        rightobj.textContent = '1右:  赔率:' + convert(0,2,1) + ' 数量: ' + convert(0,2,3);
+    },1000);
+    
+});
+
+document.getElementById('wtfbutton2').addEventListener("click", function(){
+
+    clearInterval(f);
+    leftobj.textContent = 0;
+    rightobj.textContent = 0;
+
+});
+
+setTimeout(() => {
+    document.getElementById('guess-main-panel').append(leftobj);
+    document.getElementById('guess-main-panel').append(rightobj);
+}, 5000);
+
 
 console.log('inject success');

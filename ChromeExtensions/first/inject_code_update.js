@@ -13,7 +13,7 @@ start_recod_button.addEventListener("click", function(){
     counter = 0;
     output = [];
     timestep = 1000; //ms
-    min = record_time_input.textContent;
+    min = record_time_input.value;
 
     record_interval = setInterval(() => record(),timestep);
 
@@ -23,7 +23,7 @@ start_recod_button.addEventListener("click", function(){
 
 record_time_input = document.createElement('input');
 record_time_input.setAttribute('id','record_time_input');
-record_time_input.textContent = 10;
+record_time_input.value = 10;
 
 stop_recod_button = document.createElement('button');
 stop_recod_button.setAttribute('id','stopbutton');
@@ -43,22 +43,19 @@ record_result_container.setAttribute('id','record_result_container');
 record_result_container.textContent = '记录未开始';
 //injectpoint.append(record_result_container);
 
-pot_obj = document.getElementsByClassName('guess-game-box-body')[0].children[0].children;//pot_obj[pot_number],pot_number = 0/1/2
-//pot1 = pot_obj[0];
-//pot2 = pot_obj[1];
-//pot3 = pot_obj[2];
-
 function get_data(pot_number,left_or_right,rate_or_number){ // 0 1 2 //0left 2right //1rate 3number
-    return pot_obj[pot_number].children[0].children[0].children[0].children[1].children[left_or_right].attributes[rate_or_number].nodeValue;
+    
+    return document.getElementsByClassName('guess-game-box-body')[0].children[0].children[pot_number].children[0].children[0].children[0].children[1].children[left_or_right].attributes[rate_or_number].nodeValue;
 };
 
 function get_whole_betting(pot_number,left_or_right){ // 0 for right, 1 for left
-    return pot_obj[pot_number].children[0].children[0].children[0].children[2].children[left_or_right].children[0].attributes[1].nodeValue;
+    
+    return document.getElementsByClassName('guess-game-box-body')[0].children[0].children[pot_number].children[0].children[0].children[0].children[2].children[left_or_right].children[0].attributes[1].nodeValue;
 };
 
 function record(){
 
-    total = pot_obj.length;
+    total = document.getElementsByClassName('guess-game-box-body')[0].children[0].children.length;
 
     var rate1 = 0;
     var number1 = 0;
